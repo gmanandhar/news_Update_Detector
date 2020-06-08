@@ -1,1 +1,2 @@
 # news_Update_Detector
+This is a simple module created for specific purpose. This module is designed as per the instruction of the company which takes dynamic query and focuses on scanning their front page  of news potral site. I have take reference of "https://thenewdaily.com.au/news/coronavirus/" in which all news links and readings are resulted in the form of data base and html. If any changes occur in links or headings, it is checked through command link and therefore notifies the users. 
