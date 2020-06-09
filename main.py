@@ -1,4 +1,4 @@
-from app.db import connection
+
 
 from app.lib import logger
 from app.lib import scrap
@@ -8,7 +8,7 @@ from app.db import connection
 
 if __name__ == '__main__':
    #Define Log location
-   #logger.set_log('app/templates/error.log')
+   logger.set_log('app/templates/error.log')
 
    #SSL and HTTP issue for MAC
    if str(sys.platform) == 'darwin':

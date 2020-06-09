@@ -6,7 +6,7 @@ class module(object):
 
     #  Method to create table
     def createTable(self):
-        qry = "CREATE TABLE news (NID int NOT NULL AUTO_INCREMENT ,date VARCHAR(80), time VARCHAR(80), website_name VARCHAR(255), URL VARCHAR(255), content VARCHAR(255),PRIMARY KEY (NID)) "
+        qry = "CREATE TABLE news (NID int NOT NULL AUTO_INCREMENT,date VARCHAR(80), time VARCHAR(80), website_name VARCHAR(255), URL VARCHAR(255), content VARCHAR(255),PRIMARY KEY (NID)) "
         self._db_connect.query('CREATE',qry)
         self._db_connect.__del__()
 

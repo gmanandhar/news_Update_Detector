@@ -5,7 +5,7 @@ import logging
 
 # Method for maintaining Log files
 def set_log(filename):
-    logging.basicConfig(filename,level=logging.INFO)
+    logging.basicConfig(filename=filename,level=logging.INFO)
 
 # Method to write error on file
 def log(e:Exception):
