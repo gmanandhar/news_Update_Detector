@@ -1,6 +1,6 @@
 
 ''' Importing Area'''
-import os
+import os, os.path
 import ssl
 
 from datetime import datetime
@@ -54,6 +54,10 @@ def get_last_scrap(filename):
     interval = current_time - prv_time
     minutes= int(round(interval / 60))
     return minutes
+
+# Methods that check existance of file
+def check_file(filename):
+    return os.path.exists(filename)
 
 # Methods that check file time and confirm to re download or not
 def check_cache(filename, cachetime):

@@ -1,0 +1,22 @@
+ERROR:root:unknown url type: '/Users/gaurabmanandhar/Desktop/News_Update_Detector/app/filterNews.html'
+Traceback (most recent call last):
+  File "/Users/gaurabmanandhar/Desktop/News_Update_Detector/app/lib/scrap.py", line 32, in retrive_webpage
+    req = Request(self._url,headers={'User-Agent': 'Mozilla/5.0'}) # Act as browser
+  File "/usr/local/Cellar/python/3.7.4_1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/urllib/request.py", line 328, in __init__
+    self.full_url = url
+  File "/usr/local/Cellar/python/3.7.4_1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/urllib/request.py", line 354, in full_url
+    self._parse()
+  File "/usr/local/Cellar/python/3.7.4_1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/urllib/request.py", line 383, in _parse
+    raise ValueError("unknown url type: %r" % self.full_url)
+ValueError: unknown url type: '/Users/gaurabmanandhar/Desktop/News_Update_Detector/app/filterNews.html'
+ERROR:root:unknown url type: '/Users/gaurabmanandhar/Desktop/News_Update_Detector/app/templates/filterNews.html'
+Traceback (most recent call last):
+  File "/Users/gaurabmanandhar/Desktop/News_Update_Detector/app/lib/scrap.py", line 32, in retrive_webpage
+    req = Request(self._url,headers={'User-Agent': 'Mozilla/5.0'}) # Act as browser
+  File "/usr/local/Cellar/python/3.7.4_1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/urllib/request.py", line 328, in __init__
+    self.full_url = url
+  File "/usr/local/Cellar/python/3.7.4_1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/urllib/request.py", line 354, in full_url
+    self._parse()
+  File "/usr/local/Cellar/python/3.7.4_1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/urllib/request.py", line 383, in _parse
+    raise ValueError("unknown url type: %r" % self.full_url)
+ValueError: unknown url type: '/Users/gaurabmanandhar/Desktop/News_Update_Detector/app/templates/filterNews.html'
