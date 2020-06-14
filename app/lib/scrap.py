@@ -15,6 +15,7 @@ url = 'https://thenewdaily.com.au/news/coronavirus/'
 html = 'app/templates/news.html'
 opt_html = 'app/templates/filterNews.html'
 current_date = datetime.now().strftime('%Y/%m/%d')
+website_name = 'thenewdaily.com.au'
 
 class Scrap:
     _url =''
@@ -60,25 +61,25 @@ class Scrap:
     def convertDataBs(self):
         self._soup = BeautifulSoup(self._data,"html.parser")
 
-    def check_update(self):
-        chunkSize = 10000
-        i=0
-
+    #Get file from  Filter output HTML
+    def get_file(self):
         if helper.check_file(opt_html):
-            #File Handeling and HTML parsing
-            self._url = "file://" + os.getcwd() +"/app/templates/filterNews.html"
+            # File Handling and HTML parsing
+            self._url = "file://" + os.getcwd() + "/app/templates/filterNews.html"
             self.retrive_webpage()
             self.convertDataBs()
-            data_parse = self._soup.find_all(['li']) # finds all <ol> from the html
+            return self._soup.find_all(['li'])  # finds all <ol> from the html
 
+    def check_update(self):
+
+            opt = self.get_file()
             # Querying data from html and tally with database
-            for tag in data_parse:
+            for tag in opt:
                 link = tag.find('a').get('href')
                 date = re.findall(r'\d{4}/\d{1,2}/\d{1,2}', link)[0]  # Get New Publish date from URL
                 title = tag.find('a').string  # Return String inside the heading tag
-                print(title)
                 if date == current_date:
-                    self.check_db(date,link,title,len(data_parse))
+                    self.check_db(date,link,title)
 
     #Method to encode from long text to MD5
     def encode(self, txt):
@@ -92,7 +93,7 @@ class Scrap:
     x[1] = content
     """
 
-    def check_db(self, date, url, content,counter):
+    def check_db(self, date, url, content):
         #Creating objects
         count=0  # Counter for total data record after SQL query
         con = connection.connection()
@@ -101,38 +102,57 @@ class Scrap:
         en_content = self.encode(content)
         en_url = self.encode(url)
         #Query to get current current date content from database
+
+        # Length is equal to 0
         res = con.query('READ', "SELECT date, URl, content FROM news WHERE date='" + current_date + "'")
         length_res = len(res)
-        if length_res > 0:
+        if length_res !=0:
             for x in res:
                 if x[0] == date:
                     en_db_url = self.encode(x[1])
                     en_db_content = self.encode(x[2])
-                    if en_url != en_db_url and en_content== en_db_content:
+                    if en_url == en_db_url and en_content == en_db_content:
+                        count +=1
+                        return True
+                    elif en_url != en_db_url and en_content== en_db_content:
                         # Same Content with change in URL
                         print("URL has been changed of " + x[1])
                         print("New URL is" + url)
-                        con.query('UPDATE', "UPDATE news SET `url`= {} where `content`={}".format(url, content))
+                        con.query('UPDATE', "UPDATE news SET `url`= '{}' where `content`='{}'".format(url, content))
                         con.__del__()
+                        count += 1
+                        return True
                     elif en_url == en_db_url and en_content != en_db_content:
                         # Same URl with change in content
                         print("Title has been changed for following URL" + url)
                         print("New Title for the above link is " + content)
-                        con.query('UPDATE', "UPDATE news SET `content`= {} where `url`={}".format(content, url))
+                        con.query('UPDATE', "UPDATE news SET `content`={} where `url`={}".format("'"+content+"'", "'"+url+"'"))
                         con.__del__()
-                    elif en_url != en_db_url and en_content != en_db_content and count == length_res:
+                        count += 1
+                        return True
+                    elif en_url != en_db_url and en_content != en_db_content and count == length_res-1:
                         #Check URL and Content if its not equal and count reach to length of select query
                         print("New Content has been added to website")
                         print("Details")
                         print("Website URL: " + url)
                         print("Heading: " + content)
-                        mod.insert(date, datetime.now().time(), 'thenewdaily.com.au', url, content)
-                    count +=1
+                        mod.insert(date, datetime.now().time(), website_name, url, content)
+                        count += 1
+                        return True
+                    else:
+                        count +=1
         else:
-            print("New news has been added to website on "+ current_date)
-            print("Website URL: " + url)
-            print("Heading: " + content)
-            mod.insert(date, datetime.now().time(), 'thenewdaily.com.au', url, content)
+            opt = self.get_file()
+            # Querying data from html and tally with database
+            for tag in opt:
+                link = tag.find('a').get('href')
+                date = re.findall(r'\d{4}/\d{1,2}/\d{1,2}', link)[0]  # Get New Publish date from URL
+                title = tag.find('a').string  # Return String inside the heading tag
+                if date == current_date:
+                    print("New news has been added to website on "+ current_date)
+                    print("Website URL: " + url)
+                    print("Heading: " + content)
+                    mod.insert(date, datetime.now().time(), website_name, link, title)
 
 
     # Method to map output with HTML tags
@@ -155,7 +175,7 @@ class Scrap:
                 title= tag.find('h1').string # Return String inside the heading tag
                 if date == current_date:
                     counter +=1
-                    # self.check_db(current_date,link,title,counter)
+                    # self.check_db(current_date,link,title)
                     news_links += "<li><a href='{}' target='_blank'>{}</a></li>\n".format(link,title)
         news_links += '</ol>'
 

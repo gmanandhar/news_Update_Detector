@@ -23,7 +23,6 @@ class connection(object):
                     password = db_pwd,
                     database = db_name)
             self._db_cur = self._db_connect.cursor()
-
         except Exception as e:
             print(e)
 
@@ -38,3 +37,4 @@ class connection(object):
     # Function to close connection
     def __del__(self):
         self._db_connect.close()
+
