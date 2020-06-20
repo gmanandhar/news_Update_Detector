@@ -23,7 +23,6 @@ if __name__ == '__main__':
       scp_obj.convertDataBs()
       scp_obj.htmlParser()
       scp_obj.check_update()
-      # scp_obj.print_data()
 
 
 

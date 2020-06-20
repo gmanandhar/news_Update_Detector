@@ -1,4 +1,3 @@
-ERROR:root:unknown url type: '/Users/gaurabmanandhar/Desktop/News_Update_Detector/app/filterNews.html'
 Traceback (most recent call last):
   File "/Users/gaurabmanandhar/Desktop/News_Update_Detector/app/lib/scrap.py", line 32, in retrive_webpage
     req = Request(self._url,headers={'User-Agent': 'Mozilla/5.0'}) # Act as browser
