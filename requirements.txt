@@ -1,7 +1,7 @@
 beautifulsoup4==4.9.1
 bs4==0.0.1
 mysql-connector-python==8.0.17
-protobuf==3.12.2
+protobuf==3.18.3
 PyMySQL==0.9.3
 six==1.15.0
 soupsieve==2.0.1
